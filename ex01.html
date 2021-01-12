@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dcc 138 exemplo01</title>
+</head>
+<body>
+    <h1>Dcc 138 exemplo01</h1>
+    <canvas></canvas>
+    <p>por Nícolas Moraes</p>
+    <script>
+        let canvas = document.querySelector("canvas");
+        canvas.width = 420;
+        canvas.height = 320; 
+        let x =150 ;
+        let y = 100
+         
+
+        let t0;
+        requestAnimationFrame (desenha);
+
+       
+        function desenha (t){
+            t0=t0 ?? t;
+            dt=(t-t0)/1000;
+
+            //desenha fundo
+            let cont = canvas.getContext("2d");
+            cont.fillStyle= "black";
+            cont.fillRect(0, 0, canvas.width, canvas.height);
+
+            //Atualiza estados
+            x  = x + 10 *dt ;
+            y = y + 20*dt;
+
+            //desenha elementos
+            cont.fillStyle= "white";
+            cont.fillRect(x, y, 20, 20);
+            requestAnimationFrame (desenha);
+            t0=t;
+
+    }
+        </script>
+
+    
+</body>
+</html>
