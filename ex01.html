@@ -11,10 +11,14 @@
     <p>por Nícolas Moraes</p>
     <script>
         let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
         canvas.width = 420;
         canvas.height = 320; 
         let x =150 ;
-        let y = 100
+        let vx = 0;
+        let y = 100;
+        let vy = 0;
+
          
 
         let t0;
@@ -26,22 +30,46 @@
             dt=(t-t0)/1000;
 
             //desenha fundo
-            let cont = canvas.getContext("2d");
-            cont.fillStyle= "black";
-            cont.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle= "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            //Atualiza estados
-            x  = x + 10 *dt ;
-            y = y + 20*dt;
+            //Atualiza dinâmicas dos estados
+            x  = x + vx *dt ;
+            y = y + vy*dt;
 
             //desenha elementos
-            cont.fillStyle= "white";
-            cont.fillRect(x, y, 20, 20);
+            ctx.fillStyle= "white";
+            ctx.fillRect(x, y, 20, 20);
             requestAnimationFrame (desenha);
             t0=t;
 
     }
-        </script>
+    addEventListener("keydown", teclaPressionada);
+    
+    function teclaPressionada (e){
+        //adiciona controle de velocidades  
+        console.log(e.key);
+        switch(e.key){
+            case "ArrowUp":
+                vy=-100;
+                break;
+
+            case "ArrowDown":
+                vy= 100;
+                break;
+
+                case "ArrowLeft":
+                vx=-100;
+                break;
+
+            case "ArrowRight":
+                vx= 100;
+                break;
+        } 
+
+    }
+
+    </script>
 
     
 </body>
