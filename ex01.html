@@ -23,15 +23,19 @@
          ay:0,
      };
       
-      let ex = 300;
-      let evx = 0;
-      let eax=0;
-      let ey = 200;
-      let evy = 0;
-      let eay=0;
+    let e = {
 
+         ex : 300, 
+         evx  :  0,
+         eax : 0,
+         ey  :  200,
+         evy  :  0,
+         eay : 0,
 
-      const K = 50;
+    };      
+      
+
+      const K = 200;
       let dt;  
       let t0;
       requestAnimationFrame(desenha);
@@ -45,8 +49,8 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         //controladores
-        eay=0.5*(p.y-ey)-0.4*evy;
-        eax=0.5*(p.x-ex)-0.4*evx;
+        e.eay=0.5*(p.y-e.ey)-0.4*e.evy;
+        e.eax=0.5*(p.x-e.ex)-0.4*e.evx;
 
         //Atualiza dinâmicas dos estados
         p.vx= p.vx +p.ax*dt;
@@ -54,17 +58,17 @@
         p.vy=p.vy+p.ay*dt;
         p.y = p.y + p.vy * dt;
 
-        evx= evx +eax*dt;
-        ex = ex + evx * dt;
-        evy=evy+eay*dt;
-        ey = ey + evy * dt;
+        e.evx= e.evx +e.eax*dt;
+        e.ex = e.ex + e.evx * dt;
+        e.evy=e.evy+e.eay*dt;
+        e.ey = e.ey + e.evy * dt;
 
         //desenha elementos
         ctx.fillStyle = "white";
         ctx.fillRect(p.x, p.y, 20, 20);
 
         ctx.fillStyle = "red";
-        ctx.fillRect(ex, ey, 20, 20);
+        ctx.fillRect(e.ex, e.ey, 20, 20);
 
         requestAnimationFrame(desenha);
         t0 = t;
@@ -73,10 +77,10 @@
       addEventListener("keydown", teclaPressionada);
       addEventListener("keyUp", teclaSolta);
 
-      function teclaPressionada(e) {
+      function teclaPressionada(event) {
         //adiciona controle de velocidades
-        console.log(e.key);
-        switch (e.key) {
+        console.log(event.key);
+        switch (event.key) {
           case "ArrowUp":
             p.ay = -K;
             break;
@@ -95,25 +99,21 @@
         }
       }
 
-      function teclaSolta(e) {
-        console.log(e.key);
-        switch (e.key) {
+      function teclaSolta(event) {
+        console.log(event.key);
+        switch (event.key) {
           case "ArrowUp":
             p.vy = 0; 
             p.ay = 0;
-
             break;
-
           case "ArrowDown":
             vy=0;
             p.ay = 0;
             break;
-
           case "ArrowLeft":
             p.vx=0;
             p.ax = 0;
             break;
-
           case "ArrowRight":
             p.vx=0;
             p.ax = 0;
