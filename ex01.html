@@ -1,76 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dcc 138 exemplo01</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Dcc 138 exemplo01</h1>
     <canvas></canvas>
     <p>por Nícolas Moraes</p>
     <script>
-        let canvas = document.querySelector("canvas");
-        let ctx = canvas.getContext("2d");
-        canvas.width = 420;
-        canvas.height = 320; 
-        let x =150 ;
-        let vx = 0;
-        let y = 100;
-        let vy = 0;
+      let canvas = document.querySelector("canvas");
+      let ctx = canvas.getContext("2d");
+      canvas.width = 420;
+      canvas.height = 320;
+      let x = 150;
+      let vx = 0;
+      let y = 100;
+      let vy = 0;
+      const v = 80;
 
-         
+      let t0;
+      requestAnimationFrame(desenha);
 
-        let t0;
-        requestAnimationFrame (desenha);
+      function desenha(t) {
+        t0 = t0 ?? t;
+        dt = (t - t0) / 1000;
 
-       
-        function desenha (t){
-            t0=t0 ?? t;
-            dt=(t-t0)/1000;
+        //desenha fundo
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            //desenha fundo
-            ctx.fillStyle= "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //Atualiza dinâmicas dos estados
+        x = x + vx * dt;
+        y = y + vy * dt;
 
-            //Atualiza dinâmicas dos estados
-            x  = x + vx *dt ;
-            y = y + vy*dt;
+        //desenha elementos
+        ctx.fillStyle = "white";
+        ctx.fillRect(x, y, 20, 20);
+        requestAnimationFrame(desenha);
+        t0 = t;
+      }
+      addEventListener("keydown", teclaPressionada);
+      addEventListener("keyUp", teclaSolta);
 
-            //desenha elementos
-            ctx.fillStyle= "white";
-            ctx.fillRect(x, y, 20, 20);
-            requestAnimationFrame (desenha);
-            t0=t;
-
-    }
-    addEventListener("keydown", teclaPressionada);
-    
-    function teclaPressionada (e){
-        //adiciona controle de velocidades  
+      function teclaPressionada(e) {
+        //adiciona controle de velocidades
         console.log(e.key);
-        switch(e.key){
-            case "ArrowUp":
-                vy=-100;
-                break;
+        switch (e.key) {
+          case "ArrowUp":
+            vy = -v;
+            break;
 
-            case "ArrowDown":
-                vy= 100;
-                break;
+          case "ArrowDown":
+            vy = v;
+            break;
 
-                case "ArrowLeft":
-                vx=-100;
-                break;
+          case "ArrowLeft":
+            vx = -v;
+            break;
 
-            case "ArrowRight":
-                vx= 100;
-                break;
-        } 
+          case "ArrowRight":
+            vx = v;
+            break;
+        }
+      }
 
-    }
+      function teclaSolta(e) {
+        console.log(e.key);
+        switch (e.key) {
+          case "ArrowUp":
+            vy = 0;
+            break;
 
+          case "ArrowDown":
+            vy = 0;
+            break;
+
+          case "ArrowLeft":
+            vx = 0;
+            break;
+
+          case "ArrowRight":
+            vx = 0;
+            break;
+        }
+      }
     </script>
-
-    
-</body>
+  </body>
 </html>
