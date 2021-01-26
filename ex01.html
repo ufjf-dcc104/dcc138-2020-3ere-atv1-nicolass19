@@ -19,7 +19,7 @@
       let y = 100;
       let vy = 0;
       const v = 80;
-
+      let dt;  
       let t0;
       requestAnimationFrame(desenha);
 
@@ -38,6 +38,7 @@
         //desenha elementos
         ctx.fillStyle = "white";
         ctx.fillRect(x, y, 20, 20);
+            
         requestAnimationFrame(desenha);
         t0 = t;
       }
