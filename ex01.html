@@ -21,6 +21,10 @@
          y : 100,
          vy : 0,
          ay:0,
+         desenhar: function(){
+            ctx.fillStyle = "white";
+            ctx.fillRect(this.x, this.y, 20, 20); 
+         } 
      };
       
     let e = {
@@ -31,6 +35,10 @@
          ey  :  200,
          evy  :  0,
          eay : 0,
+         desenhar: function(){
+            ctx.fillStyle = "red";
+            ctx.fillRect(this.ex, this.ey, 20, 20);   
+         }
 
     };      
       
@@ -64,11 +72,9 @@
         e.ey = e.ey + e.evy * dt;
 
         //desenha elementos
-        ctx.fillStyle = "white";
-        ctx.fillRect(p.x, p.y, 20, 20);
-
-        ctx.fillStyle = "red";
-        ctx.fillRect(e.ex, e.ey, 20, 20);
+        p.desenhar ();
+            
+        e.desenhar ();
 
         requestAnimationFrame(desenha);
         t0 = t;
@@ -103,19 +109,15 @@
         console.log(event.key);
         switch (event.key) {
           case "ArrowUp":
-            p.vy = 0; 
             p.ay = 0;
             break;
           case "ArrowDown":
-            vy=0;
             p.ay = 0;
             break;
           case "ArrowLeft":
-            p.vx=0;
             p.ax = 0;
             break;
           case "ArrowRight":
-            p.vx=0;
             p.ax = 0;
             break;
         }
