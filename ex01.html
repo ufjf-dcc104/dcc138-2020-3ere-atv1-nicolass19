@@ -16,9 +16,11 @@
       canvas.height = 320;
       let x = 150;
       let vx = 0;
+      let ax=0;
       let y = 100;
       let vy = 0;
-      const v = 80;
+      let ay=0;
+      const K = 50;
       let dt;  
       let t0;
       requestAnimationFrame(desenha);
@@ -32,13 +34,15 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         //Atualiza dinâmicas dos estados
+        vx= vx +ax*dt;
         x = x + vx * dt;
+        vy=vy+ay*dt;
         y = y + vy * dt;
 
         //desenha elementos
         ctx.fillStyle = "white";
         ctx.fillRect(x, y, 20, 20);
-            
+
         requestAnimationFrame(desenha);
         t0 = t;
       }
@@ -50,19 +54,19 @@
         console.log(e.key);
         switch (e.key) {
           case "ArrowUp":
-            vy = -v;
+            ay = -K;
             break;
 
           case "ArrowDown":
-            vy = v;
+            ay = +K;
             break;
 
           case "ArrowLeft":
-            vx = -v;
+            ax = -K;
             break;
 
           case "ArrowRight":
-            vx = v;
+            ax = +K;
             break;
         }
       }
@@ -71,19 +75,24 @@
         console.log(e.key);
         switch (e.key) {
           case "ArrowUp":
-            vy = 0;
+            vy = 0; 
+            ay = 0;
+
             break;
 
           case "ArrowDown":
-            vy = 0;
+            vy=0;
+            ay = 0;
             break;
 
           case "ArrowLeft":
-            vx = 0;
+            vx=0;
+            ax = 0;
             break;
 
           case "ArrowRight":
-            vx = 0;
+            vx=0;
+            ax = 0;
             break;
         }
       }
