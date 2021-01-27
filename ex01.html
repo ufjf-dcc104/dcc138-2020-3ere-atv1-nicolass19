@@ -15,34 +15,36 @@
       canvas.width = 420;
       canvas.height = 320;
       let p = {
-         x :150,
-         vx : 0,
-         ax:0,
-         y : 100,
-         vy : 0,
-         ay:0,
-         cor: "white",
-         desenhar: desenharElemento,
-         mover: moverElemento,
-     };
-      
-    let e = {
-
-        x : 300, 
-        vx  :  0,
-        ax : 0,
-        y  :  200,
-        vy  :  0,
-        ay : 0,
-        cor: "red",
+        x: 150,
+        vx: 0,
+        ax: 0,
+        y: 100,
+        vy: 0,
+        ay: 0,
+        cor: "white",
         desenhar: desenharElemento,
         mover: moverElemento,
-        controlar : perseguirAlvo,
-    };      
-      
+      };
 
-      const K = 200;
-      let dt;  
+      const sprites = [];
+      for (let ne = 0; ne < 5; ne++) {
+        let e = {
+          x: canvas.width * Math.random(),
+          vx: 0,
+          ax: 0,
+          y: canvas.width * Math.random(),
+          vy: 0,
+          ay: 0,
+          cor: "red",
+          desenhar: desenharElemento,
+          mover: moverElemento,
+          controlar: perseguirAlvo,
+        };
+        sprites.push(e);
+      }
+
+      const K = 80;
+      let dt;
       let t0;
       requestAnimationFrame(desenha);
 
@@ -54,42 +56,41 @@
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        //controladores
-        e.controlar(p);
-        
-
-        //Atualiza dinâmicas dos estados
         p.mover();
+        p.desenhar();
 
-        e.mover();
-
-        //desenha elementos
-        p.desenhar ();
-            
-        e.desenhar ();
+        for (let s = 0; s < sprites.length; s++) {
+          const sprite = sprites[s];
+          //controladores
+          sprite.controlar(p);
+          //Atualiza dinâmicas dos estados
+          sprite.mover();
+          //desenha elementos
+          sprite.desenhar();
+        }
 
         requestAnimationFrame(desenha);
         t0 = t;
       }
-      function moverElemento(){
-            this.vx= this.vx +this.ax*dt;
-            this.x = this.x + this.vx * dt;
-            this.vy=this.vy+this.ay*dt;
-            this.y = this.y + this.vy * dt;  
-         }
+      function moverElemento() {
+        this.vx = this.vx + this.ax * dt;
+        this.x = this.x + this.vx * dt;
+        this.vy = this.vy + this.ay * dt;
+        this.y = this.y + this.vy * dt;
+      }
 
-        function desenharElemento(){
-            ctx.fillStyle = this.cor;
-            ctx.fillRect(this.x, this.y, 20, 20);   
-        } 
-        function perseguirAlvo (alvo){
-            this.ay=0.5*(alvo.y-this.y)-0.4*this.vy;
-            this.ax=0.5*(alvo.x-this.x)-0.4*this.vx;
-        }
-        function evitarAlvo (alvo){
-            this.ay=-0.5*(alvo.y-this.y)-0.4*this.vy;
-            this.ax=-0.5*(alvo.x-this.x)-0.4*this.vx;
-        }
+      function desenharElemento() {
+        ctx.fillStyle = this.cor;
+        ctx.fillRect(this.x, this.y, 20, 20);
+      }
+      function perseguirAlvo(alvo) {
+        this.ay = 0.8 * (alvo.y - this.y) - 0.2 * this.vy;
+        this.ax = 0.8 * (alvo.x - this.x) - 0.2 * this.vx;
+      }
+      function evitarAlvo(alvo) {
+        this.ay = -0.8 * (alvo.y - this.y) - 0.1 * this.vy;
+        this.ax = -0.8 * (alvo.x - this.x) - 0.1 * this.vx;
+      }
 
       addEventListener("keydown", teclaPressionada);
       addEventListener("keyUp", teclaSolta);
