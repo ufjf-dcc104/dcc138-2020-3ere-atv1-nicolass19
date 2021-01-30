@@ -27,7 +27,7 @@
       };
 
       const sprites = [];
-      for (let ne = 0; ne < 5; ne++) {
+      for (let ne = 0; ne < 20; ne++) {
         let e = {
           x: canvas.width * Math.random(),
           vx: 0,
@@ -42,8 +42,27 @@
         };
         sprites.push(e);
       }
+      let o = {
+        x: -1000,
+        vx: 0,
+        ax: 0,
+        y: 150,
+        vy: 0,
+        ay: 0,
+        cor: "blue",
+        desenhar: desenharElemento,
+        mover: moverElemento,
+        controlar: function (){
+          if(this.x> canvas.width+50){
+            this.x=-1000;
+            this.ax=0;
+            this.vx=0;
+            }
+          }
+      } ;
+        sprites.push(o);
 
-      const K = 80;
+      const K = 180;
       let dt;
       let t0;
       requestAnimationFrame(desenha);
@@ -62,9 +81,9 @@
         for (let s = 0; s < sprites.length; s++) {
           const sprite = sprites[s];
           //controladores
-          sprite.controlar(p);
+          if(sprite.controlar) sprite.controlar(p);
           //Atualiza dinâmicas dos estados
-          sprite.mover();
+          if(sprite.mover) sprite.mover();
           //desenha elementos
           sprite.desenhar();
         }
@@ -94,10 +113,11 @@
 
       addEventListener("keydown", teclaPressionada);
       addEventListener("keyUp", teclaSolta);
+      
 
       function teclaPressionada(event) {
         //adiciona controle de velocidades
-        console.log(event.key);
+        
         switch (event.key) {
           case "ArrowUp":
             p.ay = -K;
@@ -118,7 +138,7 @@
       }
 
       function teclaSolta(event) {
-        console.log(event.key);
+        
         switch (event.key) {
           case "ArrowUp":
             p.ay = 0;
@@ -132,8 +152,19 @@
           case "ArrowRight":
             p.ax = 0;
             break;
+          
+          case " ":
+            if(o.x===-1000){
+              o.x=p.x;
+              o.y=p.y
+              o.vx=0;
+              o.ax=100;
+            
+            }
+            break;
         }
       }
+      
     </script>
   </body>
 </html>
