@@ -14,6 +14,8 @@
       let ctx = canvas.getContext("2d");
       canvas.width = 420;
       canvas.height = 320;
+      let pontos=0;
+
       let p = {
         x: 150,
         vx: 0,
@@ -86,8 +88,18 @@
           if(sprite.mover) sprite.mover();
           //desenha elementos
           sprite.desenhar();
-        }
 
+          if(colidiram (p,sprite) && p!==sprite){
+          sprite.x=1000;
+          sprite.vx=100;
+          sprite.ax=0;
+          pontos --;
+          }
+        }
+        ctx.fillStyle = "yellow";
+        ctx.font = "20px impact"
+        ctx.fillText(pontos,20,20);
+        
         requestAnimationFrame(desenha);
         t0 = t;
       }
@@ -163,6 +175,17 @@
             }
             break;
         }
+      }
+
+      function colidiram (A,B){
+        return !(
+          (A.x>B.x + 20)
+          ||(A.x + 20 < B.x)
+          ||(A.y>B.y + 20)
+          ||(A.y + 20 < B.y)
+        
+        );
+
       }
       
     </script>
